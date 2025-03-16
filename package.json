@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "name": "chat-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {},
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && venv\\Scripts\\activate &&  python app.py",
+    "client": "cd frontend && npm run dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
