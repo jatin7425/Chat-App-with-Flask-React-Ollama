@@ -1,5 +1,5 @@
 
-# Chat App with Flask & React
+# Chat App with Flask & React & Ollama
 
 This project is a chatbot application built with **Flask** (backend) and **React** (frontend). It supports multiple AI models, chat history management, and dynamic profile generation.
 
