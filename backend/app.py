@@ -123,17 +123,34 @@ def update_model_characters(model_name):
 def list_models():
     models_info = ollama.list()
     model_names = [model["model"] for model in models_info.get("models", [])]
+    
     return jsonify(model_names)
 
 @app.route("/profiles", methods=["GET"])
 def get_profiles():
     if not os.path.exists(PROFILE_FILE):
         generate_profiles()
+
     with open(PROFILE_FILE, "r", encoding="utf-8") as f:
-        return jsonify(json.load(f))
+        raw_profiles = json.load(f)
+
+    # Convert to list of {"name": ..., "profile_image": ...}
+    profiles = [
+        {
+            "name": profile_data.get("name"),
+            "profile_image": profile_data.get("profile_image"),
+            "characters": profile_data.get("characters"),
+            "IsMultiCharacter": profile_data.get("IsMultiCharacter")
+        }
+        for profile_data in raw_profiles.values()
+    ]
+
+    return jsonify(profiles)
+
 
 @app.route("/profiles/<model_name>", methods=["GET"])
 def get_profile_by_model(model_name):
+    model_name = model_name.replace("-", "/")
     if not os.path.exists(PROFILE_FILE):
         generate_profiles()
     
@@ -150,7 +167,7 @@ def get_profile_by_model(model_name):
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.json
-    model_name = data.get("model_name")
+    model_name = data.get("model_name").replace("-", "/")
     user_input = data.get("prompt")
     
     if not model_name or not user_input:

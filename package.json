@@ -5,7 +5,6 @@
   "name": "chat-app",
   "version": "1.0.0",
   "main": "index.js",
-  "dependencies": {},
   "scripts": {
     "start": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd backend && venv\\Scripts\\activate &&  python app.py",
